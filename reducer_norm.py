@@ -12,14 +12,15 @@ def main():
         line_w = line_w.strip().lower()
         word, count = line_w.split('\t', 1)
         word = preprocess_word(word)
-        try:
-            quant = int(count)
-            if word in count_dict:
-                count_dict[word] += quant
-            else:
-                count_dict[word] = quant
-        except ValueError:
-            continue
+        if re.match(r"^[A-Za-z]+$", word):
+            try:
+                quant = int(count)
+                if word in count_dict:
+                    count_dict[word] += quant
+                else:
+                    count_dict[word] = quant
+            except ValueError:
+                continue
     count_ord = sorted(count_dict.items(), key=lambda x: x[1], reverse=True)
 
     print(f"Total unique words: {len(count_ord)}")
